@@ -32,13 +32,13 @@ public class Main {
 		for(int i=0;i<type_num;i++){
 			weighs[i]=new Matrix(attr_num+1,1,1);
 		}
-		readFile("D:\\Zhanyang\\Classification\\training.data");
+		readFile("training.data");
 		for(int i=0;i<type_num;i++){
 			training(i, 100);
 			System.out.println("Complete "+(i+1)+" times ");
 		}
 		
-		testing("D:\\Zhanyang\\Classification\\test.data");
+		testing("test.data");
 		Calendar cal=Calendar.getInstance();
 		System.out.println("Time cost:¡¡"+(cal.getTimeInMillis()-c.getTimeInMillis())/1000+"  s");
 	}
@@ -74,13 +74,13 @@ public class Main {
 			weighs[type].plusEquals(training_attrs.transpose().times(a).times(error));
 		}
 		
-		FileWriter fw=new FileWriter("D:\\Zhanyang\\Classification\\results\\history"+(type+1)+".txt");
+		FileWriter fw=new FileWriter("history"+(type+1)+".txt");
 		for(int i=0;i<100;i++){
 			fw.write(""+history[i]+"\n");
 		}
 		fw.close();
 		
-		FileWriter fw2=new FileWriter("D:\\Zhanyang\\Classification\\results\\weighs"+(type+1)+".txt");
+		FileWriter fw2=new FileWriter("weighs"+(type+1)+".txt");
 		for(int i=0;i<=attr_num;i++){
 			fw.write(""+weighs[type].get(i, 0)+"\n");
 		}
@@ -128,7 +128,7 @@ public class Main {
 			prediction_type[i]=max_type;
 		}
 		
-		FileWriter fw=new FileWriter("D:\\Zhanyang\\Classification\\results\\predict_type.txt");
+		FileWriter fw=new FileWriter("predict_type.txt");
 		for(int i=0;i<prediction_type.length;i++){
 			fw.write(""+prediction_type[i]+"\n");
 		}
@@ -161,19 +161,19 @@ public class Main {
 			Macro_f1s[i]=2*precisions[i]*recalls[i]/(precisions[i]+recalls[i]);
 		}
 		
-		FileWriter fw=new FileWriter("D:\\Zhanyang\\Classification\\results\\precisions.txt");
+		FileWriter fw=new FileWriter("precisions.txt");
 		for(int i=0;i<precisions.length;i++){
 			fw.write(""+precisions[i]+"\n");
 		}
 		fw.close();
 		
-		FileWriter fw2=new FileWriter("D:\\Zhanyang\\Classification\\results\\recalls.txt");
+		FileWriter fw2=new FileWriter("recalls.txt");
 		for(int i=0;i<recalls.length;i++){
 			fw.write(""+recalls[i]+"\n");
 		}
 		fw2.close();
 		
-		FileWriter fw3=new FileWriter("D:\\Zhanyang\\Classification\\results\\Macro_f1s.txt");
+		FileWriter fw3=new FileWriter("Macro_f1s.txt");
 		for(int i=0;i<Macro_f1s.length;i++){
 			fw.write(""+Macro_f1s[i]+"\n");
 		}
