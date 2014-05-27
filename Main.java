@@ -79,8 +79,8 @@ public class Main {
 		fw.close();
 		
 		FileWriter fw2=new FileWriter("D:\\Zhanyang\\Classification\\results\\weighs"+(type+1)+".txt");
-		for(int i=0;i<weighs.length;i++){
-			fw.write(""+weighs[i]+"\n");
+		for(int i=0;i<=attr_num;i++){
+			fw.write(""+weighs[type].get(i, 0)+"\n");
 		}
 		fw2.close();
 	}
