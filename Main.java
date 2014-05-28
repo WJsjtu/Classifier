@@ -22,7 +22,7 @@ public class Main {
 	
 	static Matrix[] weighs=new Matrix[type_num];	
 	
-	static double[] history=new double[100];	
+	static double[] history=new double[500];	
 	static double[] prediction_score=new double[test_instance_num];
 	static int[] prediction_type=new int[test_instance_num];	
 	
@@ -34,7 +34,7 @@ public class Main {
 		}
 		readFile("training.data");
 		for(int i=0;i<type_num;i++){
-			training(i, 100);
+			training(i, 500);
 			System.out.println("Complete "+(i+1)+" times ");
 		}
 		
@@ -74,15 +74,15 @@ public class Main {
 			weighs[type].plusEquals(training_attrs.transpose().times(a).times(error));
 		}
 		
-		FileWriter fw=new FileWriter("history"+(type+1)+".txt");
-		for(int i=0;i<100;i++){
+		FileWriter fw=new FileWriter("results\\history"+(type+1)+".txt");
+		for(int i=0;i<500;i++){
 			fw.write(""+history[i]+"\n");
 		}
 		fw.close();
 		
-		FileWriter fw2=new FileWriter("weighs"+(type+1)+".txt");
+		FileWriter fw2=new FileWriter("results\\weighs"+(type+1)+".txt");
 		for(int i=0;i<=attr_num;i++){
-			fw.write(""+weighs[type].get(i, 0)+"\n");
+			fw2.write(""+weighs[type].get(i, 0)+"\n");
 		}
 		fw2.close();
 	}
@@ -126,13 +126,20 @@ public class Main {
 			}
 			prediction_score[i]=max_score;
 			prediction_type[i]=max_type;
+			max_score=0;
 		}
 		
-		FileWriter fw=new FileWriter("predict_type.txt");
+		FileWriter fw=new FileWriter("results\\predict_type.txt");
 		for(int i=0;i<prediction_type.length;i++){
 			fw.write(""+prediction_type[i]+"\n");
 		}
 		fw.close();
+		
+		FileWriter fw2=new FileWriter("results\\predict_score.txt");
+		for(int i=0;i<prediction_score.length;i++){
+			fw2.write(""+prediction_score[i]+"\n");
+		}
+		fw2.close();
 		
 		calculate_F1();
 	}
@@ -161,21 +168,21 @@ public class Main {
 			Macro_f1s[i]=2*precisions[i]*recalls[i]/(precisions[i]+recalls[i]);
 		}
 		
-		FileWriter fw=new FileWriter("precisions.txt");
+		FileWriter fw=new FileWriter("results\\precisions.txt");
 		for(int i=0;i<precisions.length;i++){
 			fw.write(""+precisions[i]+"\n");
 		}
 		fw.close();
 		
-		FileWriter fw2=new FileWriter("recalls.txt");
+		FileWriter fw2=new FileWriter("results\\recalls.txt");
 		for(int i=0;i<recalls.length;i++){
-			fw.write(""+recalls[i]+"\n");
+			fw2.write(""+recalls[i]+"\n");
 		}
 		fw2.close();
 		
-		FileWriter fw3=new FileWriter("Macro_f1s.txt");
+		FileWriter fw3=new FileWriter("results\\Macro_f1s.txt");
 		for(int i=0;i<Macro_f1s.length;i++){
-			fw.write(""+Macro_f1s[i]+"\n");
+			fw3.write(""+Macro_f1s[i]+"\n");
 		}
 		fw3.close();
 	}
