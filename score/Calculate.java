@@ -1,4 +1,4 @@
-package common;
+package score;
 
 public class Calculate {
 	
