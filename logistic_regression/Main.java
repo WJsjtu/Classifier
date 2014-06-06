@@ -9,11 +9,11 @@ import java.util.Calendar;
 import Jama.Matrix;
 
 public class Main {
-	final static int attr_num=54;	
-	final static int type_num=7;		
-	final static int training_instance_num=450000;	
-	final static int test_instance_num=131012;
-	final static double a=0.05;
+	final static int attr_num=10;	
+	final static int type_num=5;		
+	final static int training_instance_num=3649;	//4000;	
+	final static int test_instance_num=1824;	//1473;
+	final static double a=0.01;
 	static Matrix training_attrs=new Matrix(training_instance_num,attr_num+1,1);	
 	static Matrix training_types=new Matrix(training_instance_num,1);
 	
@@ -32,15 +32,49 @@ public class Main {
 		for(int i=0;i<type_num;i++){
 			weighs[i]=new Matrix(attr_num+1,1,1);
 		}
-		readFile("training.data");
+		//readFile("training.data");
+		readFile2("page-blocks.data");
 		for(int i=0;i<type_num;i++){
 			training(i, 500);
 			System.out.println("Complete "+(i+1)+" times ");
 		}
 		
-		testing("test.data");
+		//testing("test.data");
+		predict_type();
 		Calendar cal=Calendar.getInstance();
-		System.out.println("Time cost:¡¡"+(cal.getTimeInMillis()-c.getTimeInMillis())/1000+"  s");
+		System.out.println("Time cost:¡¡"+(cal.getTimeInMillis()-c.getTimeInMillis())/1000+"s");
+	}
+	
+	public static void readFile2(String path) throws IOException{
+		BufferedReader br=new BufferedReader(new FileReader(path));
+		String line="";
+		int tr_row=0;
+		int te_row=0;
+		int flag=0;
+		while((line=br.readLine())!=null){
+			String[] attributes=line.split(" +");
+			
+			if(flag%3!=2){
+				for(int i=1;i<attributes.length-1;i++){
+					training_attrs.set(tr_row, i, Math.log(Double.valueOf(attributes[i])));
+				}
+				
+				training_types.set(tr_row, 0, Integer.parseInt(attributes[attributes.length-1]));
+				tr_row++;
+				flag++;
+			}
+			
+			else{
+				for(int i=1;i<attributes.length-1;i++){
+					test_attrs.set(te_row, i, Math.log(Double.valueOf(attributes[i])));
+				}
+				
+				test_types.set(te_row, 0, Integer.parseInt(attributes[attributes.length-1]));
+				te_row++;
+				flag=0;
+			}
+		}
+		br.close();
 	}
 	
 	public static void readFile(String path) throws IOException{
@@ -48,8 +82,9 @@ public class Main {
 		String line="";
 		int row=0;
 		while((line=br.readLine())!=null){
-			String[] attributes=line.split(",");
-			for(int i=0;i<attributes.length-1;i++)
+			String[] attributes=line.split(" +");
+			for(int i=1;i<attributes.length-1;i++)
+				//training_attrs.set(row, i, Math.log(Double.valueOf(attributes[i])));
 				training_attrs.set(row, i, Double.valueOf(attributes[i]));
 			training_types.set(row, 0, Double.valueOf(attributes[attributes.length-1]));
 			row++;
@@ -89,10 +124,6 @@ public class Main {
 	
 	public static Matrix return_type(Matrix todo){		
 		for(int i=0;i<training_instance_num;i++){
-//			if(todo.get(i, 0)>0)
-//				todo.set(i, 0, 1);
-//			else
-//				todo.set(i, 0, 0);
 			todo.set(i, 0, 1/(1+Math.pow(Math.E,-todo.get(i, 0))));
 		}
 		return todo;
@@ -103,8 +134,9 @@ public class Main {
 		String line="";
 		int row=0;
 		while((line=br.readLine())!=null){
-			String[] attributes=line.split(",");
-			for(int i=0;i<attributes.length-1;i++)
+			String[] attributes=line.split(" +");
+			for(int i=1;i<attributes.length-1;i++)
+				//test_attrs.set(row, i, Math.log(Double.valueOf(attributes[i])));
 				test_attrs.set(row, i, Double.valueOf(attributes[i]));
 			test_types.set(row, 0, Double.valueOf(attributes[attributes.length-1]));
 			row++;
@@ -117,7 +149,7 @@ public class Main {
 		double max_score=0;
 		int max_type=0;
 		for(int i=0;i<test_instance_num;i++){
-			for(int j=0;j<7;j++){
+			for(int j=0;j<5;j++){
 				Matrix score=(test_attrs.getMatrix(new int[]{i}, 0, attr_num)).times(weighs[j]);
 				if(score.get(0, 0)>max_score){
 					max_score=score.get(0, 0);
@@ -142,16 +174,17 @@ public class Main {
 		fw2.close();
 		
 		calculate_F1();
+		precision();
 	}
 	
 	public static void calculate_F1() throws IOException{
-		double[] Macro_f1s=new double[7];	
-		double[] precisions=new double[7];	
-		double[] recalls=new double[7];	
+		double[] Macro_f1s=new double[5];	
+		double[] precisions=new double[5];	
+		double[] recalls=new double[5];	
 		
-		int[] every_test_type=new int[7];
-		int[] every_predict_type=new int[7];
-		int[] all_right_type=new int[7];
+		int[] every_test_type=new int[5];
+		int[] every_predict_type=new int[5];
+		int[] all_right_type=new int[5];
 		
 		for(int i=0;i<test_instance_num;i++){
 			int t=(int) test_types.get(i, 0);
@@ -162,10 +195,13 @@ public class Main {
 				all_right_type[t-1]++;
 		}
 		
-		for(int i=0;i<7;i++){
-			precisions[i]=all_right_type[i]/every_predict_type[i];
-			recalls[i]=all_right_type[i]/every_test_type[i];
-			Macro_f1s[i]=2*precisions[i]*recalls[i]/(precisions[i]+recalls[i]);
+		for(int i=0;i<5;i++){
+			System.out.println("all: "+all_right_type[i]);
+			System.out.println("every predict: "+every_predict_type[i]);
+			System.out.println("every test: "+every_test_type[i]);
+			precisions[i]=all_right_type[i]*1.0/every_predict_type[i];
+			recalls[i]=all_right_type[i]*1.0/every_test_type[i];
+			Macro_f1s[i]=2*precisions[i]*recalls[i]*1.0/(precisions[i]+recalls[i]);
 		}
 		
 		FileWriter fw=new FileWriter("results\\precisions.txt");
@@ -185,5 +221,14 @@ public class Main {
 			fw3.write(""+Macro_f1s[i]+"\n");
 		}
 		fw3.close();
+	}
+	
+	public static void precision(){
+		int right=0;
+		for(int i=0;i<test_instance_num;i++){
+			if(test_types.get(i, 0)==prediction_type[i])
+				right++;
+		}
+		System.out.println("Precision is: "+(right*100.0)/test_instance_num+"%");
 	}
 }
