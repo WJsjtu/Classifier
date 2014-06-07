@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -19,9 +20,10 @@ public class TopPanel extends JPanel{
 	
 	public void init(){
 		JButton jb=new JButton("Choose a file");
-		final JTextField jtf=new JTextField(30);
+		final JTextField jtf=new JTextField(50);
 		jtf.setEditable(false);
 		add(jb);
+		add(Box.createHorizontalStrut(10));
 		add(jtf);
 		
 		jb.addActionListener(new ActionListener() {
@@ -29,7 +31,7 @@ public class TopPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				JFileChooser data=new JFileChooser();
+				JFileChooser data=new JFileChooser(".");
 				data.showOpenDialog(null);
 				File f=data.getSelectedFile();
 				

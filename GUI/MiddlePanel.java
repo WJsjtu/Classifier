@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,9 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import file_pretreatment.MessLines;
+
 public class MiddlePanel extends JPanel{
 	private static final long serialVersionUID = 2L;
 	private Thread work=null;
+	private JButton start=null;
+	private JTextArea jta=null;
 	
 	public MiddlePanel(){
 		init();
@@ -23,9 +28,21 @@ public class MiddlePanel extends JPanel{
 	
 	public void init(){
 		add(build_left_part());
-		JTextArea jta=new JTextArea(20, 30);
+		jta=new JTextArea(20, 40);
 		jta.setEditable(false);
 		add(new JScrollPane(jta));
+	}
+	
+	public void enable_button(){
+		start.setEnabled(true);
+	}
+	
+	public void setMessage(String s){
+		jta.setText(s);
+	}
+	
+	public void appendMessage(String s){
+		jta.append(s);
 	}
 	
 	public JPanel build_left_part(){
@@ -50,13 +67,11 @@ public class MiddlePanel extends JPanel{
 //		JComboBox<String> algorithm=new JComboBox<String> (algorithms);
 //		choose_algorithm.add(algorithm);
 //		LeftPanel.add(choose_algorithm);
+		LeftPanel.add(Box.createVerticalStrut(10));
 		
 		JPanel button_panel=new JPanel();
-		final JButton start=new JButton("Start");
-		final JButton pause=new JButton("Pause");
-		pause.setEnabled(false);
+		start=new JButton("Start");
 		button_panel.add(start);
-		button_panel.add(pause);
 		LeftPanel.add(button_panel);
 		
 		start.addActionListener(new ActionListener() {
@@ -65,38 +80,14 @@ public class MiddlePanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(Main.path.equals(""))
-					JOptionPane.showMessageDialog(null, "请选择数据文件", "未选择数据文件", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please choose the data file", 
+							"No data file choosen", JOptionPane.ERROR_MESSAGE);
 				else{
-					work=new Thread();
+					work=new Thread(new MessLines());
 					work.start();
-					Main.bp.setStatus("Starting...");
-					pause.setEnabled(true);
+					Main.bp.setStatus("Working...");
 					start.setEnabled(false);
 				}
-			}
-		});
-		
-		pause.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(work!=null && !work.isInterrupted()){
-					try {
-						work.wait();
-						pause.setText("Resume");
-						start.setEnabled(true);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				
-				else if(work!=null && work.isInterrupted()){
-					work.notify();
-					pause.setText("Pause");
-				}
-				
 			}
 		});
 		

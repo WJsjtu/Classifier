@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 public class BottomPanel extends JPanel{
 	private static final long serialVersionUID = 3L;
-	private JLabel status=new JLabel("hello");
+	private JLabel status=new JLabel();
 
 	public BottomPanel(){
 		setLayout(new FlowLayout(FlowLayout.LEFT));
