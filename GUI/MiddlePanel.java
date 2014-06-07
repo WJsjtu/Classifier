@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import file_pretreatment.MessLines;
+import file_pretreatment.Cross_validation;
 
 public class MiddlePanel extends JPanel{
 	private static final long serialVersionUID = 2L;
@@ -28,7 +28,7 @@ public class MiddlePanel extends JPanel{
 	
 	public void init(){
 		add(build_left_part());
-		jta=new JTextArea(20, 40);
+		jta=new JTextArea(20, 80);
 		jta.setEditable(false);
 		add(new JScrollPane(jta));
 	}
@@ -58,7 +58,7 @@ public class MiddlePanel extends JPanel{
 		LeftPanel.add(prompt_pane);
 		
 		String[] algorithms={"Logstic Regression","Decision Tree C4.5"};
-		JComboBox<String> algorithm=new JComboBox<String> (algorithms);
+		final JComboBox<String> algorithm=new JComboBox<String> (algorithms);
 		LeftPanel.add(algorithm);
 		
 //		JPanel choose_algorithm=new JPanel();
@@ -83,9 +83,11 @@ public class MiddlePanel extends JPanel{
 					JOptionPane.showMessageDialog(null, "Please choose the data file", 
 							"No data file choosen", JOptionPane.ERROR_MESSAGE);
 				else{
-					work=new Thread(new MessLines());
+					work=new Thread(new Cross_validation());
 					work.start();
 					Main.bp.setStatus("Working...");
+					Main.algorithm=(algorithm.getSelectedIndex()==0)?true:false;
+					jta.setText("=== Start working ===\nPlease wait serveral seconds(about 40s)\n\n");
 					start.setEnabled(false);
 				}
 			}

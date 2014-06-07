@@ -20,7 +20,7 @@ public class TopPanel extends JPanel{
 	
 	public void init(){
 		JButton jb=new JButton("Choose a file");
-		final JTextField jtf=new JTextField(50);
+		final JTextField jtf=new JTextField(100);
 		jtf.setEditable(false);
 		add(jb);
 		add(Box.createHorizontalStrut(10));
