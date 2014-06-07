@@ -36,6 +36,14 @@ public class Initial_Logistic {
 	
 	double[] prediction_type;	
 	
+	/**
+	 * @interface
+	 * @param training_attrs: the training data features matrix
+	 * @param training_types: the training data types matrix
+	 * @param test_attrs:	the test data features matrix
+	 * @param test_types:	the test data types matrix
+	 * @param type_num:		the total number of all possible types
+	 */
 	public Initial_Logistic(Matrix training_attrs, Matrix training_types,
 			Matrix test_attrs, Matrix test_types, int type_num){
 		this.training_attrs=training_attrs;
@@ -128,6 +136,12 @@ public class Initial_Logistic {
 			max_score=0;
 		}
 		
+		/**
+		 * @interface
+		 * input params: the test data type matrix your model predict, 
+		 * 				the real type matrix of test data,
+		 * 				the total number of all possible types
+		 */
 		Calculate.calculate(new Matrix((double[])prediction_type,1).transpose(), test_types, type_num);
 	}
 }

@@ -8,7 +8,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class Main {
 	public static String path="";
-	public static boolean algorithm=true;  //true for Logistic Regression, false for Decision Tree C4.5
+	
+	/**
+	 * algorithm: true for Logistic Regression, false for Decision Tree C4.5
+	 */
+	public static boolean algorithm=true;  
 	public static TopPanel tp=null;
 	public static MiddlePanel mp=null;
 	public static BottomPanel bp=null;
