@@ -9,9 +9,16 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Main {
 	public static String path="";
 	public static boolean algorithm=true;  //true for Logistic Regression, false for Decision Tree C4.5
+	public static TopPanel tp=null;
 	public static MiddlePanel mp=null;
 	public static BottomPanel bp=null;
 	
+	/**
+	 * 
+	 * @author zy
+	 * @function Build GUI
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -20,11 +27,12 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		JFrame jf=new JFrame("Classification");
 		JPanel jp=new JPanel();
 		jp.setLayout(new BoxLayout(jp,BoxLayout.Y_AXIS));
-		jp.add(new TopPanel());
+		
+		tp=new TopPanel();
+		jp.add(tp);
 		
 		mp=new MiddlePanel();
 		jp.add(mp);

@@ -5,6 +5,11 @@ import java.text.DecimalFormat;
 import GUI.Main;
 import Jama.Matrix;
 
+/**
+ * 
+ * @author zy
+ * @function calculate the correct_rate and f1-score from confusion_matrix
+ */
 public class Calculate {
 	static Matrix predict;
 	static Matrix fact;
@@ -23,12 +28,22 @@ public class Calculate {
 		build_matrix();
 	}
 	
+	/**
+	 * 
+	 * @author zy
+	 * @function use the the test results to build confusion_matrix
+	 */
 	public static void build_matrix(){
 		for(int i=0;i<Calculate.predict.getRowDimension();i++){
 			Calculate.confusion_matrix[(int) Calculate.fact.get(i, 0)-1][(int) Calculate.predict.get(i, 0)-1]++;
 		}
 	}
 	
+	/**
+	 * 
+	 * @author zy
+	 * @function calculate the correct_rate
+	 */
 	public static void correct_rate(){
 		Main.mp.setMessage("=== Summary ===\n\n");
 		double correct_num=0;
@@ -48,6 +63,11 @@ public class Calculate {
 		Main.mp.appendMessage("Total Number of Instances\t\t"+(int)total_num+"\n\n");
 	}
 	
+	/**
+	 * 
+	 * @author zy
+	 * @function calculate precision, recall, f1-score using the confusion_matrix
+	 */
 	public static void f1_score(){
 		Main.mp.appendMessage("=== Detailed Accuracy By Class ===\n\n");
 		Main.mp.appendMessage("Classes\t\tPrecision\t\tRecall\t\t\tF1-score\n");
@@ -70,6 +90,11 @@ public class Calculate {
 		}
 	}
 	
+	/**
+	 * 
+	 * @author zy
+	 * @function print the confusion_matrix
+	 */
 	public static void print_matrix(){
 		Main.mp.appendMessage("\n=== Confusion Matrix ===\n\n");
 		Main.mp.appendMessage("Prediction type\n");

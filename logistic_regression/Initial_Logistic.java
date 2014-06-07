@@ -3,12 +3,27 @@ package logistic_regression;
 import score.Calculate;
 import Jama.Matrix;
 
+/**
+ * 
+ * @author zy
+ * @function train the data to get weighs,
+ * use the weighs to predict test data type
+ * give the test data type to calculate scores
+ */
 public class Initial_Logistic {
 	int attr_num;	
 	int type_num;		
 	int training_instance_num;
 	int test_instance_num;
+	
+	/**
+	 * a represents the learning rate
+	 */
 	final double a=0.01;
+	
+	/**
+	 * times represents the iteration times
+	 */
 	int times=500;
 
 	Matrix training_attrs;	
@@ -51,7 +66,15 @@ public class Initial_Logistic {
 	
 	
 	public void training(int type, int times) {
+		
+		/**
+		 * error represents the deviation between predicted type and current type
+		 */
 		Matrix error=new Matrix(training_instance_num,1);
+		
+		/**
+		 * current_type represents 0 for not this type, 1 for this type(one vs all)
+		 */
 		Matrix current_type=new Matrix(training_instance_num,1);
 		
 		for(int i=0;i<training_instance_num;i++){
@@ -61,6 +84,9 @@ public class Initial_Logistic {
 				current_type.set(i, 0, 1);
 		}
 		
+		/**
+		 * @function calculate error, and amend the weighs
+		 */
 		for(int i=0;i<times;i++){
 			error=current_type.minus(return_type(training_attrs.times(weighs[type])));
 			weighs[type].plusEquals(training_attrs.transpose().times(a).times(error));
@@ -68,6 +94,13 @@ public class Initial_Logistic {
 		
 	}
 	
+	/**
+	 * 
+	 * @author zy
+	 * @function the same as sigmod function
+	 * @param todo
+	 * @return
+	 */
 	public Matrix return_type(Matrix todo){		
 		for(int i=0;i<training_instance_num;i++){
 			todo.set(i, 0, 1/(1+Math.pow(Math.E,-todo.get(i, 0))));
@@ -75,6 +108,11 @@ public class Initial_Logistic {
 		return todo;
 	}
 	
+	/**
+	 * 
+	 * @author zy
+	 * @function use weighs to predict test data type
+	 */
 	public void predict_type() {
 		double max_score=0;
 		int max_type=0;

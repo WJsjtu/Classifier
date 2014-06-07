@@ -10,6 +10,11 @@ import logistic_regression.Initial_Logistic;
 import GUI.Main;
 import Jama.Matrix;
 
+/**
+ * 
+ * @author zy
+ * @function read file and start 10 fold cross_validation
+ */
 public class Cross_validation implements Runnable{
 
 	@Override
@@ -29,11 +34,21 @@ public class Cross_validation implements Runnable{
 		int rows=data.getRowDimension();
 		int columns=data.getColumnDimension();
 		for(int i=0;i<10;i++){
+			
+			/**
+			 * @function when i==9, we need to include the bottom lines ahead of the rows/10*(i+1)
+			 */
 			int end=0;
 			if(i==9)
 				end=rows-1;
 			else
 				end=rows/10*(i+1)-1;
+			
+			/**
+			 * @function slice the matrix into the test-data part, the part above the test-data part, 
+			 * the part below the test-data part,
+			 * and need to combine the following two part into one training-data part
+			 */
 			Matrix test_attrs=data.getMatrix(rows/10*i, end, 0, columns-2);
 			Matrix test_types=data.getMatrix(rows/10*i, end, columns-1, columns-1);
 			
@@ -46,6 +61,9 @@ public class Cross_validation implements Runnable{
 			Matrix training_constant=new Matrix(training_attrs.getRowDimension(),1,1);
 			Matrix test_constant=new Matrix(test_attrs.getRowDimension(),1,1);
 			
+			/**
+			 * @function choose the right algorithm code to run
+			 */
 			if(Main.algorithm){
 				new Initial_Logistic(combine(training_attrs, training_constant, false), 
 						combine(training_type1, training_type2, true), combine(test_attrs, test_constant, false),
@@ -53,10 +71,19 @@ public class Cross_validation implements Runnable{
 			}
 		}
 		Main.bp.setStatus("Complete!");
-		Main.mp.enable_button();
+		Main.tp.enable_button();
 		Calculate.print();
 	}
 	
+	/**
+	 * 
+	 * @author zy
+	 * @function concat two matrix vertically or horizontally
+	 * @param a
+	 * @param b
+	 * @param vertical 	true for vertically, false for horizontally
+	 * @return
+	 */
 	public Matrix combine(Matrix a, Matrix b, boolean vertical){
 		Matrix c = null;
 		int rows1=a.getRowDimension();
@@ -65,7 +92,6 @@ public class Cross_validation implements Runnable{
 		int columns2=b.getColumnDimension();
 		
 		if(vertical){
-			
 			if(columns1!=columns2){
 				throw new IllegalArgumentException("All columns must have the same length");
 			}
@@ -89,7 +115,6 @@ public class Cross_validation implements Runnable{
 			}
 		}
 		return c;
-			
 	}
 
 }
