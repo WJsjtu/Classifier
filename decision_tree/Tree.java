@@ -31,14 +31,14 @@ public class Tree extends TreeNode{
 		for(int i = 0; i < level - 1 ; i++){
 			prefix += "        |";
 		}
-		prefix += "\n" + prefix;
+		prefix += "\r\n" + prefix;
 		if(nd.type == NodeType.LEAF){
-			return  str + prefix + "__" + nd.data + " => " + nd.leaftype + "\n";
+			return  str + prefix + "__" + nd.data + " => " + nd.leaftype + "\r\n";
 		} else {
 			if(level == 1){
-				prefix += "Root:Attr(" + nd.character + ")\n";
+				prefix += "Root:Attr(" + nd.character + ")\r\n";
 			} else {
-				prefix += "__" + nd.data + "__Attr(" + nd.character + ")\n";
+				prefix += "__" + nd.data + "__Attr(" + nd.character + ")\r\n";
 			}
 			for(TreeNode node : nd.nodes){
 				prefix = _toString(prefix, node,level+1);
