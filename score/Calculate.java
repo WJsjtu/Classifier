@@ -40,8 +40,8 @@ public class Calculate {
 			}
 			catch(Exception e){
 				e.printStackTrace();
-				System.out.println(Calculate.fact.getRowDimension());
-				System.out.println(Calculate.predict.getRowDimension());
+				System.out.println(Calculate.predict.get(i, 0));
+				System.out.println(Calculate.fact.get(i, 0));
 				System.exit(1);
 			}
 		}

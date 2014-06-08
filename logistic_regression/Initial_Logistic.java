@@ -141,7 +141,7 @@ public class Initial_Logistic {
 		double max_score=0;
 		int max_type=0;
 		for(int i=0;i<test_instance_num;i++){
-			for(int j=0;j<5;j++){
+			for(int j=0;j<type_num;j++){
 				Matrix score=(test_attrs.getMatrix(new int[]{i}, 0, attr_num)).times(weighs[j]);
 				if(score.get(0, 0)>max_score){
 					max_score=score.get(0, 0);
