@@ -130,48 +130,6 @@ public class DataMatrix extends Matrix{
 	/**
 	 * 
 	 * @param columnindex
-	 * @param index
-	 * @param pace
-	 * @return
-	 */
-	public int ContinuousSeperatorEstimateByGainRato(int columnindex, int[] index, int pace){
-		pace = pace - pace % 2;
-		//Check whether the pace is to large to the scale of the matrix
-		if(index.length > pace){
-			double[] infos = new double[index.length - pace + 1];
-			Column column = new Column(this.getRowsFromColumn(this.getColumnDimension() - 1, index));
-			QSort clsort = new QSort(this.getRowsFromColumn(this.getColumnDimension() - 1, index));
-			for(int i = pace / 2,j = 0; j < index.length - pace + 1; i++, j++){
-				double[] former = new double[pace / 2];
-				double[] latter = new double[pace / 2];
-				for(int k = 0 ;k < pace / 2; k++){
-					former[k] = clsort.data[j + k];
-					latter[k] = clsort.data[i + k];
-				}
-				infos[j] = ((new Column(former)).DiscreteInfo() + (new Column(latter)).DiscreteInfo()) / column.DiscreteInfo();
-			}
-			QSort res = new QSort(infos);
-			return clsort.index[res.index[infos.length - 1]];
-		} else {
-			double[] infos = new double[index.length - 1];
-			QSort clsort = new QSort(this.getRowsFromColumn(this.getColumnDimension() - 1, index));
-			for(int i = 1; i < index.length; i++){
-				infos[i -1] = ContinousGainRato(columnindex, i, index);
-			}
-			QSort res = new QSort(infos);
-			for(int i = 0; i < res.index.length; i++){
-				int resint = clsort.index[res.index[0]];
-				if(resint != 0 ){
-					return resint;
-				}
-			}
-			return 0;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param columnindex
 	 * @param seperator
 	 * @param index
 	 * @return

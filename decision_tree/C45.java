@@ -116,8 +116,8 @@ public class C45 {
 				compare[i] = this.matrix.DiscreteGainRato(i,rows);
 			} else {
 				//The rato is listed
-				continuous[i] = this.matrix.ContinuousSeperatorEstimateByGainRato(i, rows, 100);
-				compare[i] = this.matrix.ContinousGain(i, continuous[i], rows);
+				continuous[i] = this.matrix.ContinuousSeperatorEstimateByGain(i, rows, 100);
+				compare[i] = this.matrix.ContinousGainRato(i, continuous[i], rows);
 			}
 		}
 		QSort sort = new QSort(compare);
