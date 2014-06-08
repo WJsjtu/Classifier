@@ -1,5 +1,8 @@
 package logistic_regression;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import score.Calculate;
 import Jama.Matrix;
 
@@ -67,6 +70,19 @@ public class Initial_Logistic {
 		
 		for(int i=0;i<type_num;i++){
 			training(i, times);
+		}
+		
+		try {
+			for(int i=0;i<type_num;i++){
+				FileWriter fw=new FileWriter(".\\results\\logistic_regression\\type"+(i+1)+".txt",true);
+				for(int j=0;j<weighs[i].getRowDimension();j++)
+					fw.write(""+(int)weighs[i].get(j, 0)+"\r\n");
+				fw.write("\r\n");
+				fw.close();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		predict_type();

@@ -102,7 +102,31 @@ public class TopPanel extends JPanel{
 					work.start();
 					Main.bp.setStatus("Working...");
 					Main.algorithm=algorithm.getSelectedIndex();
-					Main.mp.setMessage("=== Start working ===\nPlease wait serveral seconds(about 40s)\n\n");
+					
+					if(Main.algorithm==0){
+						Main.mp.setMessage("=== Start working ===\nPlease wait serveral seconds(about 40s)\n\n");
+						File f=new File(".\\results\\logistic_regression");
+						if(!f.exists()){
+							f.mkdirs();
+						}
+					}
+					
+					else if(Main.algorithm==1){
+						Main.mp.setMessage("=== Start working ===\nPlease wait serveral minutes(about 5min)\n\n");
+						File f=new File(".\\results\\C45");
+						if(!f.exists()){
+							f.mkdirs();
+						}
+					}
+					
+					else if(Main.algorithm==2){
+						Main.mp.setMessage("=== Start working ===\nPlease wait serveral seconds(about 10s)\n\n");
+						File f=new File(".\\results\\ID3");
+						if(!f.exists()){
+							f.mkdirs();
+						}
+					}
+					
 					start.setEnabled(false);
 				}
 			}

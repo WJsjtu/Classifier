@@ -2,6 +2,7 @@ package file_pretreatment;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import logistic_regression.Initial_Logistic;
@@ -71,7 +72,6 @@ public class Cross_validation implements Runnable{
 				new Initial_Logistic(total_training_attrs, 
 						total_training_types, combine(test_attrs, test_constant, false),
 						test_types, 5).init();
-			
 			}
 			
 			else if(Main.algorithm==1){
@@ -79,6 +79,9 @@ public class Cross_validation implements Runnable{
 						new boolean[]{false, false, false, false, false, false, false, false, false, false});
 				double[] res = C45test.Root.MatrixTest(combine(test_attrs, test_constant, false));
 				Calculate.calculate(new Matrix(res,1).transpose(), test_types, 5);
+				FileWriter fw=new FileWriter(".\\results\\C45\\C45_"+(i+1)+".txt");
+				fw.write(C45test.TreeString());
+				fw.close();
 			}
 			
 			else if(Main.algorithm==2){
@@ -86,6 +89,9 @@ public class Cross_validation implements Runnable{
 						new boolean[]{false, false, false, false, false, false, false, false, false, false});
 				double[] res = ID3test.Root.MatrixTest(combine(test_attrs, test_constant, false));
 				Calculate.calculate(new Matrix(res,1).transpose(), test_types, 5);
+				FileWriter fw=new FileWriter(".\\results\\ID3\\ID3_"+(i+1)+".txt");
+				fw.write(ID3test.TreeString());
+				fw.close();
 			}
 		}
 		Main.bp.setStatus("Complete!");
