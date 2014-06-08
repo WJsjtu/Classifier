@@ -2,6 +2,8 @@ package score;
 
 import java.text.DecimalFormat;
 
+import file_pretreatment.Cross_validation;
+
 import GUI.Main;
 import Jama.Matrix;
 
@@ -36,13 +38,13 @@ public class Calculate {
 	public static void build_matrix(){
 		for(int i=0;i<Calculate.predict.getRowDimension();i++){
 			try{
-			Calculate.confusion_matrix[(int) Calculate.fact.get(i, 0)-1][(int) Calculate.predict.get(i, 0)-1]++;
+			Calculate.confusion_matrix[(int) (Calculate.fact.get(i, 0)-Cross_validation.start_num)]
+					[(int) (Calculate.predict.get(i, 0)-Cross_validation.start_num)]++;
 			}
 			catch(Exception e){
 				e.printStackTrace();
 				System.out.println(Calculate.predict.get(i, 0));
 				System.out.println(Calculate.fact.get(i, 0));
-				System.exit(1);
 			}
 		}
 	}
@@ -98,7 +100,8 @@ public class Calculate {
 				recall=Calculate.confusion_matrix[i][i]/fact;
 			if(precision!=0 && recall!=0)
 				f1=2*precision*recall/(precision+recall);
-			Main.mp.appendMessage(""+(i+1)+"\t\t"+df.format(precision)+"\t\t"+df.format(recall)+"\t\t"+df.format(f1)+"\n");
+			Main.mp.appendMessage(""+(i+Cross_validation.start_num)+"\t\t"+df.format(precision)+
+					"\t\t"+df.format(recall)+"\t\t"+df.format(f1)+"\n");
 		}
 	}
 	
@@ -111,13 +114,13 @@ public class Calculate {
 		Main.mp.appendMessage("\n=== Confusion Matrix ===\n\n");
 		Main.mp.appendMessage("Prediction type\n");
 		for(int i=0;i<Calculate.type;i++)
-			Main.mp.appendMessage(""+(i+1)+"\t");
+			Main.mp.appendMessage(""+(i+Cross_validation.start_num)+"\t");
 		Main.mp.appendMessage("Real type\n\n");
 		for(int i=0;i<Calculate.type;i++){
 			for(int j=0;j<Calculate.type;j++){
 				Main.mp.appendMessage(""+(int)Calculate.confusion_matrix[i][j]+"\t");
 			}
-			Main.mp.appendMessage(""+(i+1)+"\n");
+			Main.mp.appendMessage(""+(i+Cross_validation.start_num)+"\n");
 		}
 	}
 	

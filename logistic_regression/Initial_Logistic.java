@@ -3,6 +3,8 @@ package logistic_regression;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import file_pretreatment.Cross_validation;
+
 import score.Calculate;
 import Jama.Matrix;
 
@@ -74,7 +76,7 @@ public class Initial_Logistic {
 		
 		try {
 			for(int i=0;i<type_num;i++){
-				FileWriter fw=new FileWriter(".\\results\\logistic_regression\\type"+(i+1)+".txt",true);
+				FileWriter fw=new FileWriter(".\\results\\logistic_regression\\type"+(i+Cross_validation.start_num)+".txt",true);
 				for(int j=0;j<weighs[i].getRowDimension();j++)
 					fw.write(""+(int)weighs[i].get(j, 0)+"\r\n");
 				fw.write("\r\n");
@@ -102,7 +104,7 @@ public class Initial_Logistic {
 		Matrix current_type=new Matrix(training_instance_num,1);
 		
 		for(int i=0;i<training_instance_num;i++){
-			if(training_types.get(i,0)!=(type+1))
+			if(training_types.get(i,0)!=(type+Cross_validation.start_num))
 				current_type.set(i, 0, 0);
 			else
 				current_type.set(i, 0, 1);
@@ -145,7 +147,7 @@ public class Initial_Logistic {
 				Matrix score=(test_attrs.getMatrix(new int[]{i}, 0, attr_num)).times(weighs[j]);
 				if(score.get(0, 0)>max_score){
 					max_score=score.get(0, 0);
-					max_type=(j+1);
+					max_type=(int) (j+Cross_validation.start_num);
 				}
 			}
 			prediction_type[i]=max_type;
