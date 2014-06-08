@@ -94,9 +94,10 @@ public class Calculate {
 			
 			if(predict!=0)
 				precision=Calculate.confusion_matrix[i][i]/predict;
-			if(recall!=0)
+			if(fact!=0)
 				recall=Calculate.confusion_matrix[i][i]/fact;
-			f1=2*precision*recall/(precision+recall);
+			if(precision!=0 && recall!=0)
+				f1=2*precision*recall/(precision+recall);
 			Main.mp.appendMessage(""+(i+1)+"\t\t"+df.format(precision)+"\t\t"+df.format(recall)+"\t\t"+df.format(f1)+"\n");
 		}
 	}

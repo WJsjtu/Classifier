@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import logistic_regression.Initial_Logistic;
 import score.Calculate;
@@ -18,7 +21,7 @@ import decision_tree.ID3;
  * @function read file and start 10 fold cross_validation
  */
 public class Cross_validation implements Runnable{
-	final int type_num=5;
+	int type_num=0;
 
 	@Override
 	public void run() {
@@ -32,8 +35,22 @@ public class Cross_validation implements Runnable{
 	}
 	
 	public void ReadFile() throws IOException{
+		Matrix data=null;
+		try{
+			data=Matrix.read(new BufferedReader(new FileReader(GUI.Main.path)));
+		}
+		catch(NumberFormatException e){
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Unrecognized data format", 
+					"can't parse the data file to double value, please ensure the data file format as ReadMe said",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		type_num=count_type_num(data.getMatrix(0, data.getRowDimension()-1, data.getColumnDimension()-1, 
+				data.getColumnDimension()-1));
+		//System.out.println("num type"+type_num);
 		Calculate.init(type_num);
-		Matrix data=Matrix.read(new BufferedReader(new FileReader(GUI.Main.path)));
 		int rows=data.getRowDimension();
 		int columns=data.getColumnDimension();
 		for(int i=0;i<10;i++){
@@ -96,6 +113,17 @@ public class Cross_validation implements Runnable{
 		Main.bp.setStatus("Complete!");
 		Main.tp.enable_button();
 		Calculate.print();
+	}
+	
+	public int count_type_num(Matrix types){
+		//types.print(0, 0);
+		ArrayList<Double> count=new ArrayList<>();
+		for(int i=0;i<types.getRowDimension();i++){
+			if(!count.contains(types.get(i, 0))){
+				count.add(types.get(i, 0));
+			}
+		}
+		return count.size();
 	}
 	
 	/**
