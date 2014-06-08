@@ -33,10 +33,18 @@ public class C45 {
 	 * @param m
 	 * @param InDiscrete
 	 */
-	public C45(Matrix m, boolean[] InDiscrete){
+	public C45(Matrix m, int[] Discrete){
 		this.Root = new Tree();
 		this.matrix = new DataMatrix(m);
-		this.InDiscrete = InDiscrete;
+		this.InDiscrete = new boolean[m.getColumnDimension() - 1];
+		for(int i = 0; i < InDiscrete.length; i++){
+			this.InDiscrete[i] = false;
+		}
+		if(Discrete != null){
+			for(int i = 0; i < Discrete.length; i++){
+				this.InDiscrete[Discrete[i]] = true;
+			}
+		}
 		int[] rows = new int[m.getRowDimension()];
 		for(int i =0; i< rows.length;i++){
 			rows[i] = i;

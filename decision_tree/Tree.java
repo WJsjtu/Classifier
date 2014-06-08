@@ -49,6 +49,57 @@ public class Tree extends TreeNode{
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public int Leaves(){
+		return _Leaves(this);
+	}
+	
+	/**
+	 * 
+	 * @param nd
+	 * @return
+	 */
+	private int _Leaves(TreeNode nd){
+		int count = 0;
+		if(nd.type == NodeType.LEAF){
+			count++;
+		} else {
+			for(TreeNode node : nd.nodes){
+				count += _Leaves(node);
+			}
+		}
+		return count;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int Nodes(){
+		return _Nodes(this);
+	}
+	
+	/**
+	 * 
+	 * @param nd
+	 * @return
+	 */
+	private int _Nodes(TreeNode nd){
+		int count = 0;
+		if(nd.type == NodeType.LEAF){
+			count++;
+		} else {
+			count += nd.nodes.size();
+			for(TreeNode node : nd.nodes){
+				count += _Nodes(node);
+			}
+		}
+		return count;
+	}
+	
+	/**
+	 * 
 	 * @param row
 	 * @return the type of a test row
 	 */
