@@ -98,7 +98,7 @@ public class Cross_validation implements Runnable{
 				C45 C45test = new C45(combine(training_attrs, total_training_types, false), null);
 				double[] res = C45test.Root.MatrixTest(combine(test_attrs, test_constant, false));
 				Calculate.calculate(new Matrix(res,1).transpose(), test_types, type_num);
-				FileWriter fw=new FileWriter(".\\results\\C45\\C45_"+(i+Cross_validation.start_num)+".txt");
+				FileWriter fw=new FileWriter(".\\results\\C45\\C45_"+(int)(i+Cross_validation.start_num)+".txt");
 				fw.write(C45test.TreeString());
 				fw.close();
 			}
@@ -107,7 +107,7 @@ public class Cross_validation implements Runnable{
 				ID3 ID3test = new ID3(combine(training_attrs, total_training_types, false), null);
 				double[] res = ID3test.Root.MatrixTest(combine(test_attrs, test_constant, false));
 				Calculate.calculate(new Matrix(res,1).transpose(), test_types, type_num);
-				FileWriter fw=new FileWriter(".\\results\\ID3\\ID3_"+(i+Cross_validation.start_num)+".txt");
+				FileWriter fw=new FileWriter(".\\results\\ID3\\ID3_"+(int)(i+Cross_validation.start_num)+".txt");
 				fw.write(ID3test.TreeString());
 				fw.close();
 			}

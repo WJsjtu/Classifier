@@ -76,7 +76,7 @@ public class Initial_Logistic {
 		
 		try {
 			for(int i=0;i<type_num;i++){
-				FileWriter fw=new FileWriter(".\\results\\logistic_regression\\type"+(i+Cross_validation.start_num)+".txt",true);
+				FileWriter fw=new FileWriter(".\\results\\logistic_regression\\type"+(int)(i+Cross_validation.start_num)+".txt",true);
 				for(int j=0;j<weighs[i].getRowDimension();j++)
 					fw.write(""+(int)weighs[i].get(j, 0)+"\r\n");
 				fw.write("\r\n");

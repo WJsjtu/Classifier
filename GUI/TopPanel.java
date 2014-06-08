@@ -104,7 +104,7 @@ public class TopPanel extends JPanel{
 					Main.algorithm=algorithm.getSelectedIndex();
 					
 					if(Main.algorithm==0){
-						Main.mp.setMessage("=== Start working ===\nPlease wait serveral seconds(about 40s)\n\n");
+						Main.mp.setMessage("=== Start working ===\nPlease wait serveral seconds(about 40s for page-blocks dataset)\n\n");
 						File f=new File(".\\results\\logistic_regression");
 						if(!f.exists()){
 							f.mkdirs();
@@ -118,18 +118,30 @@ public class TopPanel extends JPanel{
 					}
 					
 					else if(Main.algorithm==1){
-						Main.mp.setMessage("=== Start working ===\nPlease wait serveral minutes(about 10s)\n\n");
+						Main.mp.setMessage("=== Start working ===\nPlease wait serveral minutes(about 10s for page-blocks dataset)\n\n");
 						File f=new File(".\\results\\C45");
 						if(!f.exists()){
 							f.mkdirs();
 						}
+						else{
+							File[] dir=f.listFiles();
+							for(File file: dir){
+								file.delete();
+							}
+						}
 					}
 					
 					else if(Main.algorithm==2){
-						Main.mp.setMessage("=== Start working ===\nPlease wait serveral seconds(about 10s)\n\n");
+						Main.mp.setMessage("=== Start working ===\nPlease wait serveral seconds(about 10s for page-blocks dataset)\n\n");
 						File f=new File(".\\results\\ID3");
 						if(!f.exists()){
 							f.mkdirs();
+						}
+						else{
+							File[] dir=f.listFiles();
+							for(File file: dir){
+								file.delete();
+							}
 						}
 					}
 					
