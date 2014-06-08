@@ -18,6 +18,7 @@ import decision_tree.ID3;
  * @function read file and start 10 fold cross_validation
  */
 public class Cross_validation implements Runnable{
+	final int type_num=5;
 
 	@Override
 	public void run() {
@@ -31,7 +32,7 @@ public class Cross_validation implements Runnable{
 	}
 	
 	public void ReadFile() throws IOException{
-		Calculate.init(5);
+		Calculate.init(type_num);
 		Matrix data=Matrix.read(new BufferedReader(new FileReader(GUI.Main.path)));
 		int rows=data.getRowDimension();
 		int columns=data.getColumnDimension();
@@ -71,14 +72,14 @@ public class Cross_validation implements Runnable{
 			if(Main.algorithm==0){
 				new Initial_Logistic(total_training_attrs, 
 						total_training_types, combine(test_attrs, test_constant, false),
-						test_types, 5).init();
+						test_types, type_num).init();
 			}
 			
 			else if(Main.algorithm==1){
 				C45 C45test = new C45(combine(training_attrs, total_training_types, false), 
 						new boolean[]{false, false, false, false, false, false, false, false, false, false});
 				double[] res = C45test.Root.MatrixTest(combine(test_attrs, test_constant, false));
-				Calculate.calculate(new Matrix(res,1).transpose(), test_types, 5);
+				Calculate.calculate(new Matrix(res,1).transpose(), test_types, type_num);
 				FileWriter fw=new FileWriter(".\\results\\C45\\C45_"+(i+1)+".txt");
 				fw.write(C45test.TreeString());
 				fw.close();
@@ -88,7 +89,7 @@ public class Cross_validation implements Runnable{
 				ID3 ID3test = new ID3(combine(training_attrs, total_training_types, false), 
 						new boolean[]{false, false, false, false, false, false, false, false, false, false});
 				double[] res = ID3test.Root.MatrixTest(combine(test_attrs, test_constant, false));
-				Calculate.calculate(new Matrix(res,1).transpose(), test_types, 5);
+				Calculate.calculate(new Matrix(res,1).transpose(), test_types, type_num);
 				FileWriter fw=new FileWriter(".\\results\\ID3\\ID3_"+(i+1)+".txt");
 				fw.write(ID3test.TreeString());
 				fw.close();
