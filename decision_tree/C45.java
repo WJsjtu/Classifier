@@ -204,6 +204,7 @@ public class C45 {
 				node.Add(trnode);
 				_C45(former_rows,trnode);
 			}
+			
 			QSort ltypesort = new QSort(this.matrix.getRowsFromColumn(columncnt - 1, latter_rows));
 			List<QSort.SubClass> lclasses = ltypesort.QSortClass();
 			if(lclasses.size() == 1){
