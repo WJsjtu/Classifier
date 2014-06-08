@@ -73,7 +73,7 @@ public class TopPanel extends JPanel{
 		prompt_pane.add(prompt);
 		jp2.add(prompt_pane);
 		
-		String[] algorithms={"Logstic Regression","Decision Tree C4.5"};
+		String[] algorithms={"Logstic Regression","Decision Tree C4.5","Decision Tree ID3"};
 		final JComboBox<String> algorithm=new JComboBox<String> (algorithms);
 		jp2.add(algorithm);
 		
@@ -101,7 +101,7 @@ public class TopPanel extends JPanel{
 					work=new Thread(new Cross_validation());
 					work.start();
 					Main.bp.setStatus("Working...");
-					Main.algorithm=(algorithm.getSelectedIndex()==0)?true:false;
+					Main.algorithm=algorithm.getSelectedIndex();
 					Main.mp.setMessage("=== Start working ===\nPlease wait serveral seconds(about 40s)\n\n");
 					start.setEnabled(false);
 				}

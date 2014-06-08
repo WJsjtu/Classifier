@@ -4,13 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import decision_tree.C45;
-import decision_tree.DataMatrix;
-import decision_tree.ID3;
-import score.Calculate;
 import logistic_regression.Initial_Logistic;
+import score.Calculate;
 import GUI.Main;
 import Jama.Matrix;
+import decision_tree.C45;
+import decision_tree.ID3;
 
 /**
  * 
@@ -68,14 +67,22 @@ public class Cross_validation implements Runnable{
 			 */
 			Matrix total_training_attrs=combine(training_attrs, training_constant, false);
 			Matrix total_training_types=combine(training_type1, training_type2, true);
-			if(Main.algorithm){
+			if(Main.algorithm==0){
 				new Initial_Logistic(total_training_attrs, 
 						total_training_types, combine(test_attrs, test_constant, false),
 						test_types, 5).init();
 			
 			}
-			else{
-				C45 ID3test = new C45(combine(training_attrs, total_training_types, false), 
+			
+			else if(Main.algorithm==1){
+				C45 C45test = new C45(combine(training_attrs, total_training_types, false), 
+						new boolean[]{false, false, false, false, false, false, false, false, false, false});
+				double[] res = C45test.Root.MatrixTest(combine(test_attrs, test_constant, false));
+				Calculate.calculate(new Matrix(res,1).transpose(), test_types, 5);
+			}
+			
+			else if(Main.algorithm==2){
+				ID3 ID3test = new ID3(combine(training_attrs, total_training_types, false), 
 						new boolean[]{false, false, false, false, false, false, false, false, false, false});
 				double[] res = ID3test.Root.MatrixTest(combine(test_attrs, test_constant, false));
 				Calculate.calculate(new Matrix(res,1).transpose(), test_types, 5);
