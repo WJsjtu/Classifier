@@ -115,6 +115,11 @@ public class Cross_validation implements Runnable{
 		Calculate.print();
 	}
 	
+	/**
+	 * @function count the number of types
+	 * @param types
+	 * @return
+	 */
 	public int count_type_num(Matrix types){
 		//types.print(0, 0);
 		ArrayList<Double> count=new ArrayList<>();
