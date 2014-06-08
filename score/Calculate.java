@@ -35,7 +35,15 @@ public class Calculate {
 	 */
 	public static void build_matrix(){
 		for(int i=0;i<Calculate.predict.getRowDimension();i++){
+			try{
 			Calculate.confusion_matrix[(int) Calculate.fact.get(i, 0)-1][(int) Calculate.predict.get(i, 0)-1]++;
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				System.out.println(Calculate.fact.getRowDimension());
+				System.out.println(Calculate.predict.getRowDimension());
+				System.exit(1);
+			}
 		}
 	}
 	

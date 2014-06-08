@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import decision_tree.C45;
+import decision_tree.DataMatrix;
+import decision_tree.ID3;
 import score.Calculate;
-
 import logistic_regression.Initial_Logistic;
 import GUI.Main;
 import Jama.Matrix;
@@ -64,10 +66,19 @@ public class Cross_validation implements Runnable{
 			/**
 			 * @function choose the right algorithm code to run
 			 */
+			Matrix total_training_attrs=combine(training_attrs, training_constant, false);
+			Matrix total_training_types=combine(training_type1, training_type2, true);
 			if(Main.algorithm){
-				new Initial_Logistic(combine(training_attrs, training_constant, false), 
-						combine(training_type1, training_type2, true), combine(test_attrs, test_constant, false),
+				new Initial_Logistic(total_training_attrs, 
+						total_training_types, combine(test_attrs, test_constant, false),
 						test_types, 5).init();
+			
+			}
+			else{
+				C45 ID3test = new C45(combine(training_attrs, total_training_types, false), 
+						new boolean[]{false, false, false, false, false, false, false, false, false, false});
+				double[] res = ID3test.Root.MatrixTest(combine(test_attrs, test_constant, false));
+				Calculate.calculate(new Matrix(res,1).transpose(), test_types, 5);
 			}
 		}
 		Main.bp.setStatus("Complete!");

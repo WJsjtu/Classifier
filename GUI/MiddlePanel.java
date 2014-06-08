@@ -1,5 +1,7 @@
 package GUI;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -20,6 +22,7 @@ public class MiddlePanel extends JPanel{
 	public void init(){
 		jta=new JTextArea(20, 100);
 		jta.setEditable(false);
+		setLayout(new BorderLayout());
 		add(new JScrollPane(jta));
 	}
 	
