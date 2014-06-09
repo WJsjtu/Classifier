@@ -8,12 +8,12 @@ Classfier with easy GUI, currently two classification algorithm provided:
 Classify the data from http://archive.ics.uci.edu/ml/datasets/Page+Blocks+Classification
 
 ###Correction rate
-Logistic Regression:　 93%
+* Logistic Regression:93%
 
-Decision Tree C4.5:
+* Decision Tree C4.5:94%
 
 ###Micro F1-score
-Logistic Regression:　0.83
+* Logistic Regression:0.83
 
-Decision Tree C4.5:
+* Decision Tree C4.5:
 
